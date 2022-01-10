@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>
+		Cookie/LocalStorage test
+	</title>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js" integrity="sha512-3j3VU6WC5rPQB4Ld1jnLV7Kd5xr+cq9avvhwqzbH/taCRNURoeEpoPBK9pDyeukwSxwRPJ8fDgvYXd6SkaZ2TA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+	Cookie/LocalStorage test
+	<br/>
+	In Cookie: <span id="cookie">-</span><br/>
+	In LocalStorage: <span id="localstorage">-</span><br/>
+	<br/>
+	<span id="message"></span>
+
+	<script type="text/javascript">
+		jQuery(document).ready(function() {
+			let message = '';
+			let rand = uuidv4();
+			let cookie = $.cookie('test');
+			if(typeof cookie != 'undefined') {
+				$('#cookie').text(cookie);
+			} else {
+				$.cookie('test', rand, { expires: 7, path: '/' });
+				message += 'Set Cookie to '+rand+'. ';
+			}
+
+			let localstorage = localStorage.getItem('test');
+			if(typeof localstorage != 'object') {
+				$('#localstorage').text(localstorage);
+			} else {
+				localStorage.setItem("test", rand);
+				message += 'Set LocalStorage to '+rand+'. ';
+			}
+
+			if(message!='') {
+				$('#message').text(message);
+			}
+
+		});
+
+		function uuidv4() {
+		  return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+		    (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+		  );
+		}
+
+	</script>
+</body>
+</html>
